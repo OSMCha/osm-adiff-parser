@@ -1,9 +1,9 @@
-var expat = require('node-expat');
+var sax = require('sax');
 
 // Returns elements grouped by changeset ID.
 
 function AugmentedDiffParser (xmlData, changesetsFilter, callback) {
-  var xmlParser = new expat.Parser('UTF-8');
+  var xmlParser = sax.parser(true /* strict mode */, { lowercase: true });
   var currentAction = '';
   var currentElement = {};
   var oldElement = {};
@@ -15,7 +15,7 @@ function AugmentedDiffParser (xmlData, changesetsFilter, callback) {
     return (symbol === 'node' || symbol === 'way' || symbol === 'relation');
   }
 
-  function endTag (symbol, attrs) {
+  function endTag (symbol) {
     if (symbol === 'action') {
       var changeset = currentElement.changeset;
       if (changesetsFilter && changesetsFilter.length) {
@@ -39,7 +39,10 @@ function AugmentedDiffParser (xmlData, changesetsFilter, callback) {
     }
   }
 
-  function startTag (symbol, attrs) {
+  function startTag (node) {
+    var symbol = node.name;
+    var attrs = node.attributes;
+
     if (symbol === 'action') {
       currentAction = attrs.type;
     }
@@ -80,9 +83,9 @@ function AugmentedDiffParser (xmlData, changesetsFilter, callback) {
     }
   }
 
-  xmlParser.on('startElement', startTag);
-  xmlParser.on('endElement', endTag);
-  xmlParser.on('error', function(err) { callback(err, null); });
+  xmlParser.onopentag = startTag;
+  xmlParser.onclosetag = endTag;
+  xmlParser.onerror = function(err) { callback(err, null); };
   xmlParser.write(xmlData);
 
 }
