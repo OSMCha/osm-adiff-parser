@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mapbox/osm-adiff-parser.git"
+    "url": "git+https://github.com/OSMCha/osm-adiff-parser.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mapbox/osm-adiff-parser/issues"
+    "url": "https://github.com/OSMCha/osm-adiff-parser/issues"
   },
-  "homepage": "https://github.com/mapbox/osm-adiff-parser#readme",
+  "homepage": "https://github.com/OSMCha/osm-adiff-parser#readme",
   "dependencies": {
     "node-expat": "^2.3.15"
   },
