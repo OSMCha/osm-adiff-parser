@@ -1,6 +1,6 @@
-const fs = require('fs');
-const tape = require('tape');
-const parser = require('../index.js');
+import fs from 'node:fs';
+import tape from 'tape';
+import parser from '../index.js';
 
 const isOSCFile = (filename) => (/^.*\.osc$/).test(filename);
 const stripExtension = (filename) => filename.split('.')[0];
@@ -10,7 +10,7 @@ const filenames =
     .filter(isOSCFile)
     .map(stripExtension);
 
-filenames.forEach(function(filename) {
+for (const filename of filenames) {
   tape(`testing file: ${filename}`, function(t) {
     const xml = fs.readFileSync(`tests/data/${filename}.osc`, { encoding: 'utf-8' });
     const expected = JSON.parse(fs.readFileSync(`tests/data/${filename}.json`));
@@ -20,4 +20,4 @@ filenames.forEach(function(filename) {
       t.end();
     });
   });
-});
+}

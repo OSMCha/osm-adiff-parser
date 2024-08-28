@@ -1,4 +1,4 @@
-var sax = require('sax');
+import sax from 'sax';
 
 // Returns elements grouped by changeset ID.
 
@@ -85,4 +85,4 @@ function AugmentedDiffParser(xmlData) {
   });
 }
 
-module.exports = AugmentedDiffParser;
+export default AugmentedDiffParser;
