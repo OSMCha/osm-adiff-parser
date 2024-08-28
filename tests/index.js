@@ -13,10 +13,10 @@ const filenames =
 filenames.forEach(function(filename) {
   tape(`testing file: ${filename}`, function(t) {
     const xml = fs.readFileSync(`tests/data/${filename}.osc`, { encoding: 'utf-8' });
-    const expectedJSON = JSON.parse(fs.readFileSync(`tests/data/${filename}.json`));
+    const expected = JSON.parse(fs.readFileSync(`tests/data/${filename}.json`));
 
-    parser(xml, null, function(error, actualJSON) {
-      t.deepEqual(actualJSON, expectedJSON, 'parsed correctly');
+    parser(xml, null).then((actual) => {
+      t.deepEqual(actual, expected, 'parsed correctly');
       t.end();
     });
   });
