@@ -2,7 +2,7 @@ var sax = require('sax');
 
 // Returns elements grouped by changeset ID.
 
-function AugmentedDiffParser(xmlData, changesetsFilter) {
+function AugmentedDiffParser(xmlData) {
   return new Promise((resolve, reject) => {
     var xmlParser = sax.parser(true /* strict mode */, { lowercase: true });
     var currentAction = '';
@@ -18,22 +18,11 @@ function AugmentedDiffParser(xmlData, changesetsFilter) {
 
     function endTag(symbol) {
       if (symbol === 'action') {
-        var changeset = currentElement.changeset;
-        if (changesetsFilter && changesetsFilter.length) {
-          if (changesetsFilter.indexOf(changeset) !== -1) {
-            if (changesetMap[changeset]) {
-              changesetMap[changeset].push(currentElement);
-            } else {
-              changesetMap[changeset] = [currentElement];
-            }
-          }
-        } else {
-          if (changesetMap[changeset]) {
-            changesetMap[changeset].push(currentElement);
-          } else {
-            changesetMap[changeset] = [currentElement];
-          }
+        var changesetId = currentElement.changeset;
+        if (changesetMap[changesetId] === undefined) {
+          changesetMap[changesetId] = [];
         }
+        changesetMap[changesetId].push(currentElement);
       }
       if (symbol === 'osm') {
         resolve(changesetMap);
