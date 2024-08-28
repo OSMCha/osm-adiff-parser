@@ -2,7 +2,7 @@ var sax = require('sax');
 
 // Returns elements grouped by changeset ID.
 
-function AugmentedDiffParser (xmlData, changesetsFilter) {
+function AugmentedDiffParser(xmlData, changesetsFilter) {
   return new Promise((resolve, reject) => {
     var xmlParser = sax.parser(true /* strict mode */, { lowercase: true });
     var currentAction = '';
@@ -12,11 +12,11 @@ function AugmentedDiffParser (xmlData, changesetsFilter) {
     var currentMode = '';
     var changesetMap = {};
 
-    function isElement (symbol) {
-      return (symbol === 'node' || symbol === 'way' || symbol === 'relation');
+    function isElement(symbol) {
+      return symbol === 'node' || symbol === 'way' || symbol === 'relation';
     }
 
-    function endTag (symbol) {
+    function endTag(symbol) {
       if (symbol === 'action') {
         var changeset = currentElement.changeset;
         if (changesetsFilter && changesetsFilter.length) {
@@ -28,11 +28,11 @@ function AugmentedDiffParser (xmlData, changesetsFilter) {
             }
           }
         } else {
-            if (changesetMap[changeset]) {
-              changesetMap[changeset].push(currentElement);
-            } else {
-              changesetMap[changeset] = [currentElement];
-            }
+          if (changesetMap[changeset]) {
+            changesetMap[changeset].push(currentElement);
+          } else {
+            changesetMap[changeset] = [currentElement];
+          }
         }
       }
       if (symbol === 'osm') {
@@ -40,7 +40,7 @@ function AugmentedDiffParser (xmlData, changesetsFilter) {
       }
     }
 
-    function startTag (node) {
+    function startTag(node) {
       var symbol = node.name;
       var attrs = node.attributes;
 
@@ -51,8 +51,7 @@ function AugmentedDiffParser (xmlData, changesetsFilter) {
         currentMode = symbol;
       }
       if (isElement(symbol)) {
-        if (currentMode === 'new' && (currentAction === 'modify' ||
-                                      currentAction === 'delete')) {
+        if (currentMode === 'new' && (currentAction === 'modify' || currentAction === 'delete')) {
           oldElement = currentElement;
           currentElement = attrs;
           currentElement.old = oldElement;
@@ -62,8 +61,13 @@ function AugmentedDiffParser (xmlData, changesetsFilter) {
         currentElement.action = currentAction;
         currentElement.type = symbol;
         currentElement.tags = {};
-        if (symbol === 'way') {currentElement.nodes = []; }
-        if (symbol === 'relation') {currentElement.members = []; currentMember = {};}
+        if (symbol === 'way') {
+          currentElement.nodes = [];
+        }
+        if (symbol === 'relation') {
+          currentElement.members = [];
+          currentMember = {};
+        }
       }
       if (symbol === 'tag' && currentElement) {
         currentElement.tags[attrs.k] = attrs.v;
@@ -89,8 +93,7 @@ function AugmentedDiffParser (xmlData, changesetsFilter) {
     xmlParser.onerror = reject;
     xmlParser.write(xmlData);
     xmlParser.close();
-  })
+  });
 }
 
 module.exports = AugmentedDiffParser;
-
