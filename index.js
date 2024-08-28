@@ -1,4 +1,3 @@
-var R = require('ramda');
 var expat = require('node-expat');
 
 // Returns elements grouped by changeset ID.
@@ -50,7 +49,7 @@ function AugmentedDiffParser (xmlData, changesetsFilter, callback) {
     if (isElement(symbol)) {
       if (currentMode === 'new' && (currentAction === 'modify' ||
                                     currentAction === 'delete')) {
-        oldElement = R.clone(currentElement);
+        oldElement = currentElement;
         currentElement = attrs;
         currentElement.old = oldElement;
       } else {
@@ -75,7 +74,7 @@ function AugmentedDiffParser (xmlData, changesetsFilter, callback) {
     }
 
     if (symbol === 'member' && currentElement && currentElement.type === 'relation') {
-      currentMember = R.clone(attrs);
+      currentMember = attrs;
       currentMember.nodes = [];
       currentElement.members.push(currentMember);
     }
