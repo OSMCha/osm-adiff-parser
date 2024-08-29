@@ -2,6 +2,7 @@
   "name": "@osmcha/osm-adiff-parser",
   "version": "2.0.0",
   "description": "Parse OSM augmented diffs to create JSON representation of changesets",
+  "keywords": ["openstreetmap", "osm", "overpass"],
   "type": "module",
   "exports": {
     "import": "./index.js",
