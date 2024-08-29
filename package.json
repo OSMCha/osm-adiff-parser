@@ -1,6 +1,6 @@
 {
   "name": "@osmcha/osm-adiff-parser",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0",
   "description": "Parse OSM augmented diffs to create JSON representation of changesets",
   "type": "module",
   "exports": {

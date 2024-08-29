@@ -5,14 +5,14 @@ Parses OSM [augmented diff](https://wiki.openstreetmap.org/wiki/Overpass_API/Aug
 ## Installation
 
 ```
-npm install osm-adiff-parser
+npm install @osmcha/osm-adiff-parser
 ```
 
 ## Usage
 
 ```js
-var parser = require('osm-adiff-parser');
-var changesets = await parser(changesetXmlString);
+import parser from 'osm-adiff-parser';
+let changesets = await parser(changesetXmlString);
 ```
 
 ## Example input & output
@@ -79,3 +79,9 @@ Output
   ]
 }
 ```
+
+## History
+
+This package is a fork of [mapbox/osm-adiff-parser](https://github.com/mapbox/osm-adiff-parser/) which is no longer maintained. Version 2.0.0 of `@osmcha/osm-adiff-parser` contains breaking API changes compared to version 1.1.0 of `osm-adiff-parser`. See the [CHANGELOG] for more details.
+
+[CHANGELOG]: ./CHANGELOG.md
