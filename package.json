@@ -1,9 +1,19 @@
 {
-  "name": "osm-adiff-parser",
-  "version": "1.1.0",
+  "name": "@osmcha/osm-adiff-parser",
+  "version": "2.0.0-alpha.0",
   "description": "Parse OSM augmented diffs to create JSON representation of changesets",
-  "main": "index.js",
+  "type": "module",
+  "exports": {
+    "import": "./index.js",
+    "require": "./dist/index.cjs"
+  },
+  "files": [
+    "dist/*",
+    "index.js"
+  ],
   "scripts": {
+    "build": "rollup index.js --external sax --format cjs --file dist/index.cjs",
+    "prepare": "npm run build",
     "test": "tape tests/index.js"
   },
   "repository": {
@@ -20,6 +30,7 @@
     "sax": "^1.4.1"
   },
   "devDependencies": {
-    "tape": "^4.6.3"
+    "rollup": "^4.21.1",
+    "tape": "^5.8.1"
   }
 }
