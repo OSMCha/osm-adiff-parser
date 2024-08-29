@@ -15,7 +15,7 @@ for (const filename of filenames) {
     const xml = fs.readFileSync(`tests/data/${filename}.osc`, { encoding: 'utf-8' });
     const expected = JSON.parse(fs.readFileSync(`tests/data/${filename}.json`));
 
-    parser(xml, null).then((actual) => {
+    parser(xml).then((actual) => {
       t.deepEqual(actual, expected, 'parsed correctly');
       t.end();
     });
