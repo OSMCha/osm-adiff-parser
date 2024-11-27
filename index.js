@@ -34,14 +34,17 @@ function parseAttributes(attributes) {
 function parseAugmentedDiff(xmlData) {
   return new Promise((resolve, reject) => {
     var xmlParser = sax.parser(true /* strict mode */, { lowercase: true });
+    var currentXmlTag = null;
     var currentAction = {};
     var currentElement = {};
     var currentMember = {};
     var result = { actions: [] };
 
-    function startTag(node) {
+    xmlParser.onopentag = function (node) {
       var symbol = node.name;
       var attrs = parseAttributes(node.attributes);
+
+      currentXmlTag = symbol;
 
       if (symbol === "action") {
         currentAction = { type: attrs.type };
@@ -74,7 +77,13 @@ function parseAugmentedDiff(xmlData) {
       }
     }
 
-    function endTag(symbol) {
+    xmlParser.ontext = function (text) {
+      if (currentXmlTag === "note") {
+        result.note = text;
+      }
+    }
+
+    xmlParser.onclosetag = function (symbol) {
       if (symbol === "old" || symbol === "new") {
         currentAction[symbol] = currentElement;
       }
@@ -87,10 +96,10 @@ function parseAugmentedDiff(xmlData) {
       if (symbol === "osm") {
         resolve(result);
       }
+
+      currentXmlTag = null;
     }
 
-    xmlParser.onopentag = startTag;
-    xmlParser.onclosetag = endTag;
     xmlParser.onerror = reject;
     xmlParser.write(xmlData);
     xmlParser.close();
