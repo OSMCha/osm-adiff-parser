@@ -42,9 +42,14 @@ function parseAugmentedDiff(xmlData) {
 
     xmlParser.onopentag = function (node) {
       var symbol = node.name;
-      var attrs = parseAttributes(node.attributes);
-
       currentXmlTag = symbol;
+
+      if (symbol === "meta") {
+        result.meta = {...result.meta, ...node.attributes };
+        return;
+      }
+      
+      var attrs = parseAttributes(node.attributes);
 
       if (symbol === "action") {
         currentAction = { type: attrs.type };

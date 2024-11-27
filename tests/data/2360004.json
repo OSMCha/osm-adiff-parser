@@ -298641,5 +298641,8 @@
       }
     }
   ],
-  "note": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  "note": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "meta": {
+    "osm_base": "2017-03-09T04:20:03Z"
+  }
 }
