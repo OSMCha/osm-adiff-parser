@@ -1,5 +1,36 @@
 import sax from "sax";
 
+const TYPED_ATTRS = [
+  "id",
+  "uid",
+  "changeset",
+  "visible",
+  "version",
+  "lon",
+  "lat",
+  "ref",
+  "min_lon",
+  "min_lat",
+  "max_lon",
+  "max_lat",
+  "comments_count",
+  "changes_count",
+  "open",
+];
+
+function parseAttributes(attributes) {
+  for (let attr of TYPED_ATTRS) {
+    if (attributes[attr] !== undefined) {
+      try {
+        attributes[attr] = JSON.parse(attributes[attr]);
+      } catch {
+        throw new Error(`Failed to parse value "${attributes[attr]}" for attribute "${attr}" (expected a JSON value)`);
+      }
+    }
+  }
+  return attributes;
+}
+
 function parseAugmentedDiff(xmlData) {
   return new Promise((resolve, reject) => {
     var xmlParser = sax.parser(true /* strict mode */, { lowercase: true });
@@ -10,7 +41,7 @@ function parseAugmentedDiff(xmlData) {
 
     function startTag(node) {
       var symbol = node.name;
-      var attrs = node.attributes;
+      var attrs = parseAttributes(node.attributes);
 
       if (symbol === "action") {
         currentAction = { type: attrs.type };
