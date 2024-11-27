@@ -1,79 +1,60 @@
-import sax from 'sax';
+import sax from "sax";
 
-// Returns elements grouped by changeset ID.
-
-function AugmentedDiffParser(xmlData) {
+function parseAugmentedDiff(xmlData) {
   return new Promise((resolve, reject) => {
     var xmlParser = sax.parser(true /* strict mode */, { lowercase: true });
-    var currentAction = '';
+    var currentAction = {};
     var currentElement = {};
-    var oldElement = {};
     var currentMember = {};
-    var currentMode = '';
-    var changesetMap = {};
-
-    function isElement(symbol) {
-      return symbol === 'node' || symbol === 'way' || symbol === 'relation';
-    }
-
-    function endTag(symbol) {
-      if (symbol === 'action') {
-        var changesetId = currentElement.changeset;
-        if (changesetMap[changesetId] === undefined) {
-          changesetMap[changesetId] = [];
-        }
-        changesetMap[changesetId].push(currentElement);
-      }
-      if (symbol === 'osm') {
-        resolve(changesetMap);
-      }
-    }
+    var result = { actions: [] };
 
     function startTag(node) {
       var symbol = node.name;
       var attrs = node.attributes;
 
-      if (symbol === 'action') {
-        currentAction = attrs.type;
+      if (symbol === "action") {
+        currentAction = { type: attrs.type };
       }
-      if (symbol === 'new' || symbol === 'old') {
-        currentMode = symbol;
-      }
-      if (isElement(symbol)) {
-        if (currentMode === 'new' && (currentAction === 'modify' || currentAction === 'delete')) {
-          oldElement = currentElement;
-          currentElement = attrs;
-          currentElement.old = oldElement;
-        } else {
-          currentElement = attrs;
-        }
-        currentElement.action = currentAction;
-        currentElement.type = symbol;
-        currentElement.tags = {};
-        if (symbol === 'way') {
+      if (symbol === "node" || symbol === "way" || symbol === "relation") {
+        currentElement = { type: symbol, ...attrs, tags: {} };
+        if (symbol === "way") {
           currentElement.nodes = [];
         }
-        if (symbol === 'relation') {
+        if (symbol === "relation") {
           currentElement.members = [];
           currentMember = {};
         }
       }
-      if (symbol === 'tag' && currentElement) {
+      if (symbol === "tag" && currentElement) {
         currentElement.tags[attrs.k] = attrs.v;
       }
 
-      if (symbol === 'nd' && currentElement && currentElement.type === 'way') {
+      if (symbol === "nd" && currentElement && currentElement.type === "way") {
         currentElement.nodes.push(attrs);
       }
 
-      if (symbol === 'nd' && currentElement && currentElement.type === 'relation') {
+      if (symbol === "nd" && currentElement && currentElement.type === "relation") {
         currentMember.nodes.push(attrs);
       }
 
-      if (symbol === 'member' && currentElement && currentElement.type === 'relation') {
-        currentMember = attrs;
-        currentMember.nodes = [];
+      if (symbol === "member" && currentElement && currentElement.type === "relation") {
+        currentMember = { ...attrs, nodes: [] };
         currentElement.members.push(currentMember);
+      }
+    }
+
+    function endTag(symbol) {
+      if (symbol === "old" || symbol === "new") {
+        currentAction[symbol] = currentElement;
+      }
+      if (symbol === "action") {
+        if (currentAction.type == "create") {
+          currentAction.new = currentElement;
+        }
+        result.actions.push(currentAction);
+      }
+      if (symbol === "osm") {
+        resolve(result);
       }
     }
 
@@ -85,4 +66,4 @@ function AugmentedDiffParser(xmlData) {
   });
 }
 
-export default AugmentedDiffParser;
+export default parseAugmentedDiff;
