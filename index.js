@@ -24,7 +24,9 @@ function parseAttributes(attributes) {
       try {
         attributes[attr] = JSON.parse(attributes[attr]);
       } catch {
-        throw new Error(`Failed to parse value "${attributes[attr]}" for attribute "${attr}" (expected a JSON value)`);
+        throw new Error(
+          `Failed to parse value "${attributes[attr]}" for attribute "${attr}" (expected a JSON value)`,
+        );
       }
     }
   }
@@ -45,10 +47,10 @@ function parseAugmentedDiff(xmlData) {
       currentXmlTag = symbol;
 
       if (symbol === "meta") {
-        result.meta = {...result.meta, ...node.attributes };
+        result.meta = { ...result.meta, ...node.attributes };
         return;
       }
-      
+
       var attrs = parseAttributes(node.attributes);
 
       if (symbol === "action") {
@@ -80,13 +82,13 @@ function parseAugmentedDiff(xmlData) {
         currentMember = { ...attrs, nodes: [] };
         currentElement.members.push(currentMember);
       }
-    }
+    };
 
     xmlParser.ontext = function (text) {
       if (currentXmlTag === "note") {
         result.note = text;
       }
-    }
+    };
 
     xmlParser.onclosetag = function (symbol) {
       if (symbol === "old" || symbol === "new") {
@@ -103,7 +105,7 @@ function parseAugmentedDiff(xmlData) {
       }
 
       currentXmlTag = null;
-    }
+    };
 
     xmlParser.onerror = reject;
     xmlParser.write(xmlData);
