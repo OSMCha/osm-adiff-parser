@@ -1,6 +1,6 @@
 # osm-adiff-parser
 
-Parses OSM [augmented diff](https://wiki.openstreetmap.org/wiki/Overpass_API/Augmented_Diffs) XML and returns plain JS objects representing elements mentioned in the diff, grouped by changeset ID.
+Parses OSM [augmented diff](https://wiki.openstreetmap.org/wiki/Overpass_API/Augmented_Diffs) XML and returns a plain JS object representing the diff.
 
 ## Installation
 
@@ -12,7 +12,7 @@ npm install @osmcha/osm-adiff-parser
 
 ```js
 import parser from 'osm-adiff-parser';
-let changesets = await parser(changesetXmlString);
+let adiff = await parser(augmentedDiffXmlString);
 ```
 
 ## Example input & output
