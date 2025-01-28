@@ -42,41 +42,43 @@ Input (an augmented diff of a simple changeset which added a couple of tags to a
 Output
 ```json
 {
-  "155530622": [
+  "actions": [
     {
-      "id": "2523603738",
-      "version": "3",
-      "timestamp": "2024-08-20T21:36:16Z",
-      "uid": "8794039",
-      "user": "jake-low",
-      "changeset": "155530622",
-      "lat": "47.6647943",
-      "lon": "-121.2881568",
+      "type": "modify",
       "old": {
-        "id": "2523603738",
-        "version": "2",
-        "user": "TheRomanP",
-        "uid": "3844185",
-        "timestamp": "2024-06-05T13:51:12Z",
-        "changeset": "152289357",
-        "lon": "-121.2881568",
-        "lat": "47.6647943",
-        "action": "modify",
         "type": "node",
+        "id": 2523603738,
+        "version": 2,
+        "user": "TheRomanP",
+        "uid": 3844185,
+        "timestamp": "2024-06-05T13:51:12Z",
+        "changeset": 152289357,
+        "lon": -121.2881568,
+        "lat": 47.6647943,
         "tags": {
           "highway": "trailhead"
         }
       },
-      "action": "modify",
-      "type": "node",
-      "tags": {
-        "highway": "trailhead",
-        "name": "Necklace Valley Trailhead",
-        "operator": "US Forest Service",
-        "website": "https://www.fs.usda.gov/recarea/mbs/recarea/?recid=80228"
+      "new": {
+        "type": "node",
+        "id": 2523603738,
+        "version": 3,
+        "timestamp": "2024-08-20T21:36:16Z",
+        "uid": 8794039,
+        "user": "jake-low",
+        "changeset": 155530622,
+        "lat": 47.6647943,
+        "lon": -121.2881568,
+        "tags": {
+          "highway": "trailhead",
+          "name": "Necklace Valley Trailhead",
+          "operator": "US Forest Service",
+          "website": "https://www.fs.usda.gov/recarea/mbs/recarea/?recid=80228"
+        }
       }
     }
-  ]
+  ],
+  "note": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
 }
 ```
 
