@@ -8,9 +8,13 @@
     "import": "./index.js",
     "require": "./dist/index.cjs"
   },
+  "bin": {
+    "osm-adiff-parser": "./cli.js"
+  },
   "files": [
     "dist/*",
-    "index.js"
+    "index.js",
+    "cli.js"
   ],
   "scripts": {
     "build": "rollup index.js --external sax --format cjs --file dist/index.cjs",
