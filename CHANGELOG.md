@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 Versioning of this project adheres to the [Semantic Versioning](https://semver.org/spec/v2.0.0.html) spec.
 
+## [3.1.0]
+
+Released 2025-03-31
+
+### New features
+
+Added a CLI command which reads augmented diff XML from stdin and writes JSON to stdout. The command is named `osm-adiff-parser` (same as the package name). You can run it using `npx` or in an npm script in your project's `package.json`, or you can install it globally using `npm install -g osm-adiff-parser` and then run it from your shell.
+
 ## [3.0.0]
 
 Released 2025-01-28
@@ -48,5 +56,6 @@ Released 2024-08-28
 
 This package is a fork of [mapbox/osm-adiff-parser](https://github.com/mapbox/osm-adiff-parser/) v1.1.0 which is no longer maintained.
 
+[3.1.0]: https://github.com/OSMCha/osm-adiff-parser/releases/tag/v3.1.0
 [3.0.0]: https://github.com/OSMCha/osm-adiff-parser/releases/tag/v3.0.0
 [2.0.0]: https://github.com/OSMCha/osm-adiff-parser/releases/tag/v2.0.0

@@ -82,6 +82,23 @@ Output
 }
 ```
 
+## Command line interface
+
+This package also provides a CLI tool which reads augmented diff XML from stdin and writes the parsed representation to stdout as JSON.
+
+```
+$ osm-adiff-parser --help
+osm-adiff-parser v3.1.0
+Convert OSM augmented diff XML to a JSON representation
+
+Usage:
+  osm-adiff-parser [options] < input.xml > output.json
+
+Options:
+  -h, --help     Show this help message
+  -v, --version  Show version number
+```
+
 ## History
 
 This package is a fork of [mapbox/osm-adiff-parser](https://github.com/mapbox/osm-adiff-parser/) which is no longer maintained. Version 2.0.0 of `@osmcha/osm-adiff-parser` contains breaking API changes compared to version 1.1.0 of `osm-adiff-parser`. See the [CHANGELOG] for more details.
